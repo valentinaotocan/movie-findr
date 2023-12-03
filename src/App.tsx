@@ -1,5 +1,10 @@
+import Home from './pages/Home';
 function App() {
-  return <h1 className="">Hello world!</h1>;
+  return (
+    <div className='max-w-[86%] mx-auto'>
+      <Home />
+    </div>
+  )
 }
 
 export default App
