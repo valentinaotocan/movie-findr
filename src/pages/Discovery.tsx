@@ -1,8 +1,8 @@
-import Loading from "../components/Loading";
+import Error from "../components/Error";
 function Discovery() {
   return (
     <div>
-      <Loading />
+      <Error />
     </div>
   )
 }
