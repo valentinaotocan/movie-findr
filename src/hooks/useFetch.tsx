@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { Movie } from "../types";
 
 function useFetch(endpoint: string, params = {}) {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -12,11 +13,11 @@ function useFetch(endpoint: string, params = {}) {
       const response = await fetch(
         `https://api.themoviedb.org/3${endpoint}?api_key=${
           import.meta.env.VITE_API_KEY
-        }&language=en-US&page=1&${queryParams}`
+        }&language=en-US&include_adult=false&page=1&${queryParams}`
       );
       if (response.ok) {
         const data = await response.json();
-        setMovies(data);
+        setMovies(data.results);
       } else {
         setError(true);
       }
@@ -29,7 +30,7 @@ function useFetch(endpoint: string, params = {}) {
 
   useEffect(() => {
     fetchData();
-  }, [endpoint, params]);
+  }, [endpoint, JSON.stringify(params)]);
 
   return { movies, loading, error };
 }
