@@ -26,10 +26,10 @@ function NewestMovies() {
   );
 
   return (
-    <div>
-      <h2 className="text-lg">Newest:</h2>
-      <Card movies={moviesWithPosters}/>
-    </div>
+    <>
+      <h2 className="text-lg pb-3">Newest:</h2>
+        <Card movies={moviesWithPosters}/>
+    </>
   );
 }
 export default NewestMovies;
