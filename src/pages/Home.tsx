@@ -3,11 +3,11 @@ import filmReel from "../assets/images/film-reel.jpg";
 
 function Home() {
   return (
-    <div className="relative h-[calc(100vh-4rem)]">
+    <div className="relative h-[calc(100vh-4rem)] pb-3.5">
       <img
         src={filmReel}
         alt="Film Reel"
-        className="w-full h-full object-cover object-center opacity-30"
+        className="w-full h-full object-cover object-center opacity-30 rounded"
       />
       <p className="absolute top-1/4 left-1/2 -translate-x-1/2 text-yellow-500 z-10 text-center text-lg font-medium">
         “To infinity and beyond!” — Buzz Lightyear in Toy Story
