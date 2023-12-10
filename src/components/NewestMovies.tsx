@@ -1,4 +1,4 @@
-import useFetch from "../hooks/useFetch";
+import useFetch from "../hooks/useFetchMovies";
 import Loading from "./Loading";
 import Error from "./Error";
 import Card from "./Card";
@@ -21,14 +21,10 @@ function NewestMovies() {
 
   const { movies } = result;
 
-  const moviesWithPosters = movies.filter(
-    (movie) => movie.poster_path
-  );
-
   return (
     <>
       <h2 className="text-lg pb-3">Newest:</h2>
-        <Card movies={moviesWithPosters}/>
+      <Card movies={movies} />
     </>
   );
 }
