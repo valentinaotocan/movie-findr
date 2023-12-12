@@ -23,7 +23,7 @@ function SearchInput({ searchTerm, onChange, onClear }: SearchInputProps) {
       <input
         type="search"
         id="default-search"
-        className="block w-full p-2 ps-10 rounded border border-gray-900 bg-gray-900 focus:border-yellow-500 focus:outline-none"
+        className="block w-full p-2 ps-10 rounded border border-gray-900 bg-gray-900 focus:border-yellow-400 focus:outline-none"
         placeholder="Type here to search for movies"
         value={searchTerm}
         onChange={onChange}
@@ -34,7 +34,7 @@ function SearchInput({ searchTerm, onChange, onClear }: SearchInputProps) {
         className="absolute end-1 bottom-[0.55rem] px-1.5 bottom-0"
       >
         <svg
-          className="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-yellow-500"
+          className="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-yellow-400"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
