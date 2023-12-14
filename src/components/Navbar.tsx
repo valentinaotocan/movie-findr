@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import Search from "./Search";
+import Favorites from "./Favorites";
 
 function Navbar() {
   return (
@@ -10,7 +11,7 @@ function Navbar() {
       <NavLink to="/">Home</NavLink>
       <NavLink to="/discover">Discovery</NavLink>
       <Search />
-      <p>Favorites</p>
+      <Favorites />
     </nav>
   );
 }

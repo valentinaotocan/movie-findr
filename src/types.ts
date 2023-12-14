@@ -4,7 +4,7 @@ export interface Movie {
   title: string;
   release_date: string;
   overview: string;
-  movie_id: string;
+  movie_id: number;
 }
 
 export interface CardProps {
@@ -24,4 +24,11 @@ export interface SearchSuggestionsProps {
   handleSelect: (selectedItem: string) => void;
   handleSeeAllResults: () => void;
   searchTerm: string;
+}
+
+export interface FavoriteContextType {
+  favorites: Movie[];
+  favoritesChecker: (movie: Movie) => boolean;
+  addToFavorites: (movie: Movie) => void;
+  removeFromFavorites: (movie: Movie) => void;
 }
