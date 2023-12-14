@@ -10,7 +10,7 @@ function Favorites() {
   return (
     <div>
       <button
-        className={`text-white px-5 py-2.5 text-center inline-flex items-center ${
+        className={`text-white p-2 text-center inline-flex items-center ${
           isOpen
             ? "bg-yellow-400 text-black"
             : "bg-gray-500 hover:bg-yellow-400 hover:text-black"
