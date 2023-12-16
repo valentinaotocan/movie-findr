@@ -1,4 +1,5 @@
 import NewestMovies from "../components/NewestMovies"
+import PopularByGenre from "../components/PopularByGenre";
 
 function Discovery() {
   return (
@@ -11,6 +12,7 @@ function Discovery() {
         favorite playlist.
       </p>
       <NewestMovies />
+      <PopularByGenre />
     </div>
   );
 }

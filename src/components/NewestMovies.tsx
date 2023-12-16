@@ -1,11 +1,11 @@
-import useFetch from "../hooks/useFetchMovies";
+import useFetchMovies from "../hooks/useFetchMovies";
 import Loading from "./Loading";
 import Error from "./Error";
 import Card from "./Card";
 
 function NewestMovies() {
   const today = new Date().toISOString().split("T")[0];
-  const result = useFetch("/discover/movie", {
+  const result = useFetchMovies("/discover/movie", {
     sort_by: "primary_release_date.desc",
     "primary_release_date.lte": today,
     with_original_language: "en",
