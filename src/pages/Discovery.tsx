@@ -1,9 +1,10 @@
+import Filters from "../components/Filters";
 import NewestMovies from "../components/NewestMovies"
 import PopularByGenre from "../components/PopularByGenre";
 
 function Discovery() {
   return (
-    <div>
+    <div className="px-custom">
       <h1 className="text-white pt-4 text-xl">Discover movies</h1>
       <p className="py-4">
         Dive into our 'New movies' selection, featuring the latest hits fresh
@@ -13,6 +14,7 @@ function Discovery() {
       </p>
       <NewestMovies />
       <PopularByGenre />
+      <Filters />
     </div>
   );
 }

@@ -7,7 +7,7 @@ import Details from "./components/Details";
 
 function App() {
   return (
-    <div className="max-w-[86%] mx-auto">
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -15,7 +15,7 @@ function App() {
         <Route path="/results" element={<SearchResults />} />
         <Route path="/details/:movie_id" element={<Details />} />
       </Routes>
-    </div>
+    </>
   );
 }
 

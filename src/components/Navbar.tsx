@@ -4,7 +4,7 @@ import Favorites from "./Favorites";
 
 function Navbar() {
   return (
-    <nav className="flex h-16 items-center w-full gap-3.5">
+    <nav className="flex h-16 items-center w-full gap-3.5 px-custom">
       <Link to="/" className="text-yellow-400 text-2xl">
         MovieFindr
       </Link>

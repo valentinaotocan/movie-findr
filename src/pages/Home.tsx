@@ -3,7 +3,7 @@ import filmReel from "../assets/images/film-reel.jpg";
 
 function Home() {
   return (
-    <div className="relative h-[calc(100vh-4rem)] pb-3.5">
+    <div className="relative h-[calc(100vh-4rem)] pb-3.5 px-custom">
       <img
         src={filmReel}
         alt="Film Reel"
