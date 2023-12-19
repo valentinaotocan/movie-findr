@@ -2,8 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Discovery from "./pages/Discovery";
-import SearchResults from "./components/SearchResults";
-import Details from "./components/Details";
+import SearchResults from "./pages/SearchResults";
+import Details from "./pages/Details";
 
 function App() {
   return (

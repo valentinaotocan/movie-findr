@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Loading from "./Loading";
-import Error from "./Error";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 interface MovieDetails {
   backdrop_path: string;
