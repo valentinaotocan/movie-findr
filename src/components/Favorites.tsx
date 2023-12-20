@@ -8,7 +8,7 @@ function Favorites() {
   const { favorites, favoritesChecker, removeFromFavorites } =
     useContext(FavoritesContext);
   return (
-    <div>
+    <>
       <button
         className={`text-white p-2 text-center inline-flex items-center ${
           isOpen
@@ -27,7 +27,7 @@ function Favorites() {
       </button>
 
       {isOpen && (
-        <div className="z-10 absolute rounded-lg w-44 dark:bg-gray-500 text-white mt-3">
+        <div className="z-20 absolute rounded-lg w-44 dark:bg-gray-500 text-white mt-3 top-[52px] right-[4%]">
           {favorites.length > 0 ? (
             favorites.map((item) => (
               <div
@@ -55,7 +55,7 @@ function Favorites() {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 }
 export default Favorites;
