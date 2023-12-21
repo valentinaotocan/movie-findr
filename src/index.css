@@ -49,12 +49,13 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 /* Scrollbar */
-.test {
+.scroolbar {
   scrollbar-color: var(--grey) var(--dark-blue);
   scrollbar-width: thin;
 }
 
 ::-webkit-scrollbar {
+  width: 0.6rem;
   background-color: var(--dark-blue);
   border-radius: 0.25rem;
   height: 0.6rem;
