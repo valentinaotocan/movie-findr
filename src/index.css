@@ -77,3 +77,10 @@ input[type="search"]::-webkit-search-results-decoration {
   border-bottom: 1px solid #1c252f;
 }
 
+@media(max-width: 767px) {
+  .px-custom {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
