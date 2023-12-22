@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Movie } from "../types";
 import debounce from "lodash.debounce";
@@ -12,8 +12,6 @@ function Search() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-
-  const suggestionsWithImg = suggestion.filter((item) => item.poster_path);
 
   const autocomplete = useMemo(
     () =>
@@ -40,6 +38,18 @@ function Search() {
     []
   );
 
+   useEffect(() => {
+     return () => {
+       // cleanup function to cancel the debounce on unmount
+       autocomplete.cancel();
+     };
+   }, [autocomplete]);
+  
+  useEffect(() => {
+    // reset error when search term changes
+    setError(false);
+  }, [searchTerm]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -63,6 +73,8 @@ function Search() {
   const handleSeeAllResults = () => {
     setShowSuggestions(false);
   };
+
+  const suggestionsWithImg = suggestion.filter((item) => item.poster_path);
 
   return (
     <>

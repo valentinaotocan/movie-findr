@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { CardProps } from "../types";
-import { FaBookmark } from "react-icons/fa6";
-import { FavoritesContext } from "../context/FavoritesContext";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { FavoritesContext } from "../context/FavoritesContext";
+import { FaBookmark } from "react-icons/fa6";
+import { CardProps } from "../types";
 
 function Card({ movies }: CardProps) {
   const { favoritesChecker, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
