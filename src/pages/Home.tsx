@@ -1,14 +1,21 @@
 import { NavLink } from "react-router-dom";
-import filmReel from "../assets/images/film-reel.jpg";
+import filmReelSmall from "../assets/images/filmReel-small.jpg";
+import filmReelMedium from "../assets/images/filmReel-medium.jpg";
+import filmReelLarge from "../assets/images/filmReel-large.jpg";
 
 function Home() {
   return (
     <div className="relative h-[calc(100vh-4rem)] pb-3.5 px-custom md:h-[calc(100vh-7rem)]">
-      <img
-        src={filmReel}
-        alt="Film Reel"
-        className="w-full h-full object-cover object-center opacity-30 rounded"
-      />
+      <picture>
+        <source media="(max-width: 640px)" srcSet={filmReelSmall} />
+        <source media="(max-width: 1024px)" srcSet={filmReelMedium} />
+        <source media="(min-width: 1025px)" srcSet={filmReelLarge} />
+        <img
+          src={filmReelLarge}
+          alt="Film Reel"
+          className="w-full h-full object-cover object-center opacity-30 rounded"
+        />
+      </picture>
       <p className="absolute top-1/4 left-1/2 -translate-x-1/2 text-yellow-400 z-10 text-center text-lg font-medium">
         “To infinity and beyond!” — Buzz Lightyear in Toy Story
       </p>
