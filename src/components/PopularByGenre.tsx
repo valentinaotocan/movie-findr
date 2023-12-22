@@ -11,33 +11,33 @@ interface Genre {
 }
 
 function PopularByGenre() {
-const {
-  genres,
-  loading: genresLoading,
-  error: genresError,
-} = useFetchGenres({
-  endpoint: "/genre/movie/list",
-});
+  const {
+    genres,
+    loading: genresLoading,
+    error: genresError,
+  } = useFetchGenres({
+    endpoint: "/genre/movie/list",
+  });
 
   const [selectedGenre, setSelectedGenre] = useState<Genre>({
     id: 28,
-    name: "Action"
+    name: "Action",
   });
 
-const {
-  movies,
-  loading: moviesLoading,
-  error: moviesError,
-} = useFetchMovies("/discover/movie", {
-  with_genres: selectedGenre.id,
-  sort_by: "popularity.desc",
-});
-  
+  const {
+    movies,
+    loading: moviesLoading,
+    error: moviesError,
+  } = useFetchMovies("/discover/movie", {
+    with_genres: selectedGenre.id,
+    sort_by: "popularity.desc",
+  });
+
   console.log(movies);
 
   return (
     <div>
-      <h2 className="text-lg pb-3 pt-6">Popular movies by genre:</h2>
+      <h2 className="text-lg pb-3 pt-6">Popular by genre:</h2>
       {genresLoading && <Loading />}
       {genresError && <Error />}
       {genres && (
@@ -58,11 +58,15 @@ const {
         </div>
       )}
       {selectedGenre && (
-        <div className="">
+        <>
           {moviesLoading && <Loading />}
           {moviesError && <Error />}
-          {movies && <Card movies={movies} />}
-        </div>
+          <div className="overflow-x-auto flex flex-nowrap">
+            <div className="flex gap-3.5">
+              {movies && <Card movies={movies} />}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

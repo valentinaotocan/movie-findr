@@ -24,7 +24,11 @@ function NewestMovies() {
   return (
     <>
       <h2 className="text-lg pb-3">Newest:</h2>
-      <Card movies={movies} />
+      <div className="overflow-x-auto flex flex-nowrap">
+        <div className="flex flex gap-3.5">
+          <Card movies={movies} />
+        </div>
+      </div>
     </>
   );
 }
