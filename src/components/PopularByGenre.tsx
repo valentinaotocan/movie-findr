@@ -36,12 +36,12 @@ function PopularByGenre() {
   console.log(movies);
 
   return (
-    <div>
-      <h2 className="text-lg pb-3 pt-6">Popular by genre:</h2>
+    <section className="px-custom">
+      <h2 className="pb-3 pt-6">Popular by genre:</h2>
       {genresLoading && <Loading />}
       {genresError && <Error />}
       {genres && (
-        <div className="flex justify-center flex-wrap gap-3.5 pb-4">
+        <div className="flex justify-center flex-wrap gap-3.5 md:gap-2 pb-4">
           {genres.map((genre) => (
             <div
               key={genre.id}
@@ -63,12 +63,12 @@ function PopularByGenre() {
           {moviesError && <Error />}
           <div className="overflow-x-auto flex flex-nowrap">
             <div className="flex gap-3.5">
-              {movies && <Card movies={movies} />}
+              {movies && <Card movies={movies} layout="horizontal" />}
             </div>
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }
 

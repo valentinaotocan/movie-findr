@@ -1,44 +1,90 @@
+import { useState, useEffect } from "react";
 import { FaFilter } from "react-icons/fa";
-import { useState } from "react";
-function Filters() {
+import useFetchMovies from "../hooks/useFetchMovies";
+import useFetchGenres from "../hooks/useFetchGenres";
+import Card from "./Card";
+import FilterSortBy from "./FilterSortBy";
+import FilterYear from "./FilterYear";
+import Loading from "./Loading";
+import Error from "./Error";
+import FilterGenre from "./FilterGenre";
 
-  const [selectedYear, setSelectedYear] = useState(1920);
+function Filters() {
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [selectedSortBy, setSelectedSortBy] = useState<string>("popularity");
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
+
+  const { movies, loading, error } = useFetchMovies("/discover/movie", {
+    sort_by: `${selectedSortBy}.desc`,
+    ...(selectedYear !== null && { year: selectedYear }),
+    ...(selectedGenre !== null && { with_genres: selectedGenre }),
+  });
+  
+  const { genres } = useFetchGenres({ endpoint: "/genre/movie/list" });
+  
+  if (loading) {
+    return <Loading />;
+  }
+  
+  if (error) {
+    return <Error />;
+  }
+  
+  const toggleDropdown = (dropdownName: string) => {
+    if (openDropdown === dropdownName) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(dropdownName);
+    }
+  };
+  const handleSortBy = (value: string) => {
+    setSelectedSortBy(value);
+  };
+
+  const onYearChange = (year: number | null) => {
+    setSelectedYear(year);
+  };
 
   return (
-    <div className="flex pt-6 gap-3.5">
-      <FaFilter />
-      <h2>Filters</h2>
-      <p>Year</p>
-
-      <div className="relative mb-6">
-        <label htmlFor="labels-range-input" className="sr-only">
-          Labels range
-        </label>
-        <input
-          id="labels-range-input"
-          type="range"
-          min="1900"
-          max={new Date().getFullYear()}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-          value={selectedYear}
-          // onChange={({ target: { value: radius } }) => {
-          //   setSelectedYear(radius);
-          // }}
-        />
-        <span className="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">
-          1990
-        </span>
-        <span className="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">
-          {new Date().getFullYear()}
-        </span>
-        <span>{selectedYear}</span>
+    <section>
+      <div className="flex gap-3.5 mt-6 mx-[6%] bg-gray-900 rounded h-[2.625rem] items-center pl-1">
+        <div className="flex items-center">
+          <FaFilter />
+          <h2 className="pl-1.5">Filters:</h2>
+        </div>
+        <div className="relative inline-block text-left">
+          <FilterYear
+            selectedYear={selectedYear}
+            onYearChange={onYearChange}
+            isOpen={openDropdown === "yearDropdown"}
+            toggleDropdown={() => toggleDropdown("yearDropdown")}
+          />
+        </div>
+        <div className="relative inline-block text-left">
+          <FilterGenre
+            genres={genres}
+            selectedGenre={selectedGenre}
+            onGenreChange={setSelectedGenre}
+            isOpen={openDropdown === "genreDropdown"}
+            toggleDropdown={() => toggleDropdown("genreDropdown")}
+          />
+        </div>
       </div>
 
-      <p>Genres</p>
-      <p>Country</p>
-      <p>Rating</p>
-      <p>Runtime</p>
-    </div>
+      <FilterSortBy
+        selectedSortBy={selectedSortBy}
+        handleSortBy={handleSortBy}
+      />
+
+      <div className="px-custom">
+        {selectedSortBy && (
+          <div className="grid gap-3.5 grid-cols-[repeat(auto-fill,minmax(170px,1fr))] max-h-[500px] overflow-y-scroll">
+            <Card movies={movies} layout="vertical" />
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 export default Filters;

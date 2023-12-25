@@ -22,14 +22,14 @@ function NewestMovies() {
   const { movies } = result;
 
   return (
-    <>
-      <h2 className="text-lg pb-3">Newest:</h2>
+    <section className="px-custom">
+      <h2 className="pb-3">Newest:</h2>
       <div className="overflow-x-auto flex flex-nowrap">
         <div className="flex flex gap-3.5">
-          <Card movies={movies} />
+          <Card movies={movies} layout="horizontal" />
         </div>
       </div>
-    </>
+    </section>
   );
 }
 export default NewestMovies;

@@ -29,6 +29,7 @@ function useFetchMovies(endpoint: string, params = {}) {
   };
 
   useEffect(() => {
+    console.log("Fetching movies with params:", params);
     fetchData();
   }, [endpoint, JSON.stringify(params)]);
 

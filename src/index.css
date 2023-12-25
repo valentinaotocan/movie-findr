@@ -26,6 +26,15 @@ h3 {
   @apply font-semibold;
 }
 
+h1 {
+  @apply text-xl;
+  @apply text-white;
+}
+
+h2 {
+  @apply text-lg;
+}
+
 p {
   @apply leading-normal;
 }
@@ -70,17 +79,23 @@ input[type="search"]::-webkit-search-results-decoration {
   background-color: var(--yellow-400);
 }
 
-/* movie details */
-.detail-infos {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #1c252f;
+/* input range */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--grey);
 }
 
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .px-custom {
     padding-left: 1rem;
     padding-right: 1rem;
   }
 }
-
