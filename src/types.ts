@@ -50,7 +50,6 @@ export interface MovieDetails {
   };
 }
 
-
 export interface CardProps {
   movies: Movie[];
   layout: string;
@@ -69,6 +68,28 @@ export interface SearchSuggestionsProps {
   handleSelect: (selectedItem: string) => void;
   handleSeeAllResults: () => void;
   searchTerm: string;
+}
+
+export interface FilterGenreProps {
+  genres: { id: number; name: string }[];
+  selectedGenres: number[];
+  onGenreChange: (genreId: number[]) => void;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+}
+
+export interface FilterRuntimeProps {
+  selectedRuntime: number | null;
+  onRuntimeChange: (runtime: number | null) => void;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+}
+
+export interface FilterRatingProps {
+  selectedRating: number | null;
+  onRatingChange: (rating: number | null) => void;
+  isOpen: boolean;
+  toggleDropdown: () => void;
 }
 
 export interface FilterSortByProps {

@@ -2,7 +2,7 @@ import { FilterSortByProps } from "../types";
 
 function FilterSortBy({ selectedSortBy, handleSortBy }: FilterSortByProps) {
   return (
-    <div className="px-custom flex items-center my-3">
+    <div className="px-custom flex items-center my-3 md:bg-gray-900 md:my-0 md:pb-6">
       <p className="pr-2">Sort by:</p>
       <select
         value={selectedSortBy}

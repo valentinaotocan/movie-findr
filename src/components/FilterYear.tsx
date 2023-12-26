@@ -16,7 +16,7 @@ function FilterYear({
   toggleDropdown,
 }: ReleaseYearDropdownProps) {
   const currentYear = new Date().getFullYear();
-  const [tooltip, setTooltip] = useState<number>(selectedYear || 1900);
+  const [tooltip, setTooltip] = useState<number>(selectedYear || 0);
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newYear = parseInt(event.target.value, 10);
@@ -24,13 +24,15 @@ function FilterYear({
   };
 
   const handleSliderChangeComplete = () => {
-    onYearChange(tooltip); // Fetch data when user finishes dragging
+    onYearChange(tooltip);
   };
 
   const handleReset = () => {
     setTooltip(1900);
     onYearChange(null);
   };
+
+  const isYearSelected = selectedYear === tooltip && selectedYear !== null;
 
   return (
     <>
@@ -39,18 +41,29 @@ function FilterYear({
         type="button"
         className="flex items-center"
       >
-        Year <FaAngleDown className="ml-2" />
+        Year{" "}
+        {isOpen ? (
+          <FaAngleUp className="ml-2" />
+        ) : (
+          <FaAngleDown className="ml-2" />
+        )}
       </button>
       {isOpen && (
         <>
-          <IoTriangleSharp className="absolute z-10 text-gray-900 -mb-[3px] ml-[50%]" />
-          <div className="absolute z-10 p-3.5 rounded bg-gray-900 mt-1 -bottom-[118px] w-[250px]">
+          <IoTriangleSharp className="absolute z-10 text-gray-600 top-[26px] -mb-[3px] ml-[50%] md:text-opacity-90" />
+          <div className="absolute z-10 p-3.5 rounded text-gray-300 bg-gray-600 mt-1 top-[36px] w-[250px] md:bg-opacity-90">
             <div className="flex justify-between">
               <p>Year</p>
               <button onClick={handleReset}>Reset</button>
             </div>
 
-            <div className="flex justify-center pb-1">{tooltip}</div>
+            <div
+              className={`flex justify-center pb-1 text-${
+                isYearSelected ? "yellow-400" : "gray-300"
+              } font-semibold`}
+            >
+              {tooltip}
+            </div>
             <div className="flex items-center">
               <span>1900</span>
               <input
@@ -63,7 +76,7 @@ function FilterYear({
                 onTouchEnd={handleSliderChangeComplete}
                 className="mx-2 hover:cursor-grab active:cursor-grabbing"
               />
-              <span className="rounded w-5">{currentYear}</span>{" "}
+              <span>{currentYear}</span>
             </div>
           </div>
         </>
