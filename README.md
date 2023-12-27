@@ -9,7 +9,8 @@ Built with a passion for cinema and technology, this project offers a sleek, use
 * React.js - building UI
 * Tailwind CSS - styling
 * React Router - routing and navigation
-* SWR - for fetching data
+* React Icons - library for icons
+* SWR - library for fetching data
 * Docker - containerized deployment
 
 
