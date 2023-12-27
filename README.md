@@ -17,6 +17,7 @@ Built with a passion for cinema and technology, this project offers a sleek, use
 ### 🌟 Features
 * Movie Search: Quickly find movies based on titles.
 * Filters: Narrow down searches with various filters.
+* Favorite: Mark movies as favorites for quick access.
 * Popular: Check the most popular movies by genre.
 * Movie Details: View comprehensive information about each movie.
 
