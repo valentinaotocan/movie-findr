@@ -2,14 +2,14 @@ import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import useFetchMovies from "../hooks/useFetchMovies";
 import useFetchGenres from "../hooks/useFetchGenres";
-import Card from "./Card";
 import FilterSortBy from "./FilterSortBy";
 import FilterYear from "./FilterYear";
-import Loading from "./Loading";
-import Error from "./Error";
 import FilterGenre from "./FilterGenre";
 import FilterRuntime from "./FilterRuntime";
 import FilterRating from "./FilterRating";
+import Loading from "./Loading";
+import Error from "./Error";
+import Card from "./Card";
 
 function Filters() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -39,7 +39,7 @@ function Filters() {
     return {};
   };
 
-  const { movies, loading, error } = useFetchMovies("/discover/movie", {
+  const { movies, isLoading, error } = useFetchMovies("/discover/movie/", {
     sort_by: `${selectedSortBy}.desc`,
     ...(selectedYear !== null && { year: selectedYear }),
     ...genreQueryParam(selectedGenres),
@@ -48,14 +48,6 @@ function Filters() {
   });
 
   const { genres } = useFetchGenres({ endpoint: "/genre/movie/list" });
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <Error />;
-  }
 
   const toggleDropdown = (dropdownName: string) => {
     if (openDropdown === dropdownName) {
@@ -146,19 +138,16 @@ function Filters() {
       />
 
       <div className="px-custom md:bg-gray-900 md:pb-[24px] md:rounded-b">
-        {loading ? (
-          <Loading />
-        ) : error ? (
-          <Error />
-        ) : movies.length === 0 ? (
+        {isLoading && <Loading />}
+        {error && <Error />}
+        {!isLoading && !error && movies.length === 0 && (
           <div className="text-yellow-500">
             No results found for the selected filters.
           </div>
-        ) : (
-          <div className="grid gap-3.5 grid-cols-[repeat(auto-fill,minmax(170px,1fr))] max-h-[500px] overflow-y-scroll md:md:bg-gray-900">
-            <Card movies={movies} layout="vertical" />
-          </div>
         )}
+        <div className="grid gap-3.5 grid-cols-[repeat(auto-fill,minmax(170px,1fr))] max-h-[500px] overflow-y-scroll md:md:bg-gray-900">
+          <Card movies={movies} layout="vertical" />
+        </div>
       </div>
     </section>
   );

@@ -40,13 +40,11 @@ function Search() {
 
    useEffect(() => {
      return () => {
-       // cleanup function to cancel the debounce on unmount
        autocomplete.cancel();
      };
    }, [autocomplete]);
   
   useEffect(() => {
-    // reset error when search term changes
     setError(false);
   }, [searchTerm]);
 

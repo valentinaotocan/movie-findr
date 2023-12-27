@@ -1,64 +1,52 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { MovieDetails, Movie } from "../types";
+import { FavoritesContext } from "../context/FavoritesContext";
+import { FaBookmark } from "react-icons/fa6";
+import useSWR from "swr";
+import { fetcher } from "../api/fetcher";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import Card from "../components/Card";
 import defaultImgPoster from "../assets/images/defaultImgPoster.jpg";
 import defaultBackdropL from "../assets/images/defaultImgBackdrop-large.jpg";
 import defaultBackdropS from "../assets/images/defaultImgBackdrop-smaller.jpg";
-import { FavoritesContext } from "../context/FavoritesContext";
-import { FaBookmark } from "react-icons/fa6";
+
+export interface SimilarMoviesResponse {
+  results: Movie[];
+  // Dodajte ostala polja ako su potrebna
+}
+
 
 function Details() {
   const { movie_id } = useParams();
-  const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
-  const [similarMovies, setSimilarMovies] = useState<Movie[]>([]);
   const [isSmallerView, setIsSmallerView] = useState(
     window.matchMedia("(max-width: 786px)").matches
   );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const { favoritesChecker, addToFavorites, removeFromFavorites } =
     useContext(FavoritesContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const detailsResponse = await fetch(
-          `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${
-            import.meta.env.VITE_API_KEY
-          }&language=en-US&append_to_response=credits,similar,videos`
-        );
-        const similarMoviesResponse = await fetch(
-          `https://api.themoviedb.org/3/movie/${movie_id}/similar?api_key=${
-            import.meta.env.VITE_API_KEY
-          }&language=en-US&page=1`
-        );
+  const {
+    data: movieDetails,
+    error: movieDetailsError,
+    isLoading: movieDetailsLoading,
+  } = useSWR<MovieDetails>(
+    `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${
+      import.meta.env.VITE_API_KEY
+    }&language=en-US&append_to_response=credits,videos`,
+    fetcher
+  );
 
-        if (detailsResponse.ok) {
-          const data = await detailsResponse.json();
-          setMovieDetails(data);
-        } else {
-          setError(true);
-          return; // Add this to stop further execution if detailsResponse is not ok
-        }
-        if (similarMoviesResponse.ok) {
-          const similarMoviesData = await similarMoviesResponse.json();
-          setSimilarMovies(similarMoviesData.results);
-        } else {
-          console.error("Error fetching similar movies");
-        }
-      } catch (error) {
-        console.error("Error fetching movie details:", error);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [movie_id]);
+  const {
+    data: similarMovies,
+    error: similarMoviesError,
+    isLoading: similarMoviesLoading,
+  } = useSWR<SimilarMoviesResponse>(
+    `https://api.themoviedb.org/3/movie/${movie_id}/similar?api_key=${
+      import.meta.env.VITE_API_KEY
+    }&language=en-US`,
+    fetcher
+  );
 
   useEffect(() => {
     const handler = (e: MediaQueryListEvent) => setIsSmallerView(e.matches);
@@ -68,62 +56,71 @@ function Details() {
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (error || !movieDetails) {
-    return <Error />;
-  }
-
-  const director = movieDetails.credits.crew.find(
+  const director = movieDetails?.credits.crew.find(
     (member) => member.job === "Director"
   );
-  const productionCountry = movieDetails.production_countries
+  const productionCountry = movieDetails?.production_countries
     ?.map((country) => country.name)
     .join(", ");
-  const videos = movieDetails.videos?.results;
+  const videos = movieDetails?.videos?.results;
   const hasTrailer = videos && videos.some((video) => video.type === "Trailer");
-  const cast = movieDetails?.credits.cast;
+  const cast = movieDetails?.credits?.cast || [];
 
   const detailInfos = [
-    { label: "Rating", value: movieDetails.vote_average.toFixed(2) },
-    { label: "Popularity", value: movieDetails.popularity.toFixed(2) },
+    { label: "Rating", value: movieDetails?.vote_average.toFixed(2) },
+    { label: "Popularity", value: movieDetails?.popularity.toFixed(2) },
     {
       label: "Genres",
-      value: movieDetails.genres.map((genre) => genre.name).join(", "),
+      value: movieDetails?.genres.map((genre) => genre.name).join(", "),
     },
-    { label: "Runtime", value: `${movieDetails.runtime}'` },
+    { label: "Runtime", value: `${movieDetails?.runtime}'` },
     { label: "Production country", value: productionCountry },
     { label: "Director", value: director?.name },
     {
       label: "Budget",
-      value: `${movieDetails.budget.toLocaleString("de-DE")}$`,
+      value: `${movieDetails?.budget.toLocaleString("de-DE")}$`,
     },
     {
       label: "Revenue",
-      value: `${movieDetails.revenue.toLocaleString("de-DE")}$`,
+      value: `${movieDetails?.revenue.toLocaleString("de-DE")}$`,
     },
   ];
 
   const movieIdNumber = movie_id ? parseInt(movie_id) : -1;
 
-  const movieForFavorites = {
-    id: movieIdNumber,
-    poster_path: movieDetails.poster_path,
-    title: movieDetails.title,
-    release_date: movieDetails.release_date,
-    overview: movieDetails.overview,
-    movie_id: movieIdNumber,
-  };
+ const movieForFavorites = {
+   id: movieIdNumber,
+   poster_path: movieDetails?.poster_path || "", 
+   title: movieDetails?.title || "", 
+   release_date: movieDetails?.release_date || "", 
+   overview: movieDetails?.overview || "", 
+   movie_id: movieIdNumber,
+ };
 
+ const isLoading = movieDetailsLoading || similarMoviesLoading;
+ const isError = movieDetailsError || similarMoviesError;
+
+ if (isLoading) {
+   return <Loading />;
+ }
+
+ if (isError) {
+   return <Error />;
+ }
+
+ if (similarMovies === undefined) {
+   // Show loading state
+   return <Loading />;
+ }
+
+console.log(similarMovies);
   return (
     <section>
       <picture>
         <source
           media="(min-width: 781px)"
           srcSet={
-            movieDetails.backdrop_path
+            movieDetails?.backdrop_path
               ? `https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`
               : defaultBackdropL
           }
@@ -131,7 +128,7 @@ function Details() {
         <source
           media="(min-width: 501px) and (max-width: 780px)"
           srcSet={
-            movieDetails.backdrop_path
+            movieDetails?.backdrop_path
               ? `https://image.tmdb.org/t/p/w780/${movieDetails.backdrop_path}`
               : defaultBackdropS
           }
@@ -139,14 +136,14 @@ function Details() {
         <source
           media="(max-width: 500px)"
           srcSet={
-            movieDetails.backdrop_path
+            movieDetails?.backdrop_path
               ? `https://image.tmdb.org/t/p/w500/${movieDetails.backdrop_path}`
               : defaultBackdropS
           }
         />
         <img
           src={
-            movieDetails.backdrop_path
+            movieDetails?.backdrop_path
               ? `https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`
               : defaultBackdropL
           }
@@ -158,9 +155,9 @@ function Details() {
         {isSmallerView ? (
           <div className="grid-cols-[minmax(0,1fr)]">
             <div className="flex flex-wrap items-baseline">
-              <h1>{movieDetails.title}</h1>
+              <h1>{movieDetails?.title}</h1>
               <p className="text-lg pl-2">
-                ({movieDetails.release_date.slice(0, 4)})
+                ({movieDetails?.release_date.slice(0, 4)})
               </p>
             </div>
             <div className="pt-8">
@@ -188,7 +185,7 @@ function Details() {
             </div>
             <div className="py-8">
               <h2 className="pb-3.5">Sinopsis</h2>
-              <p>{movieDetails.overview || "No data available"}</p>
+              <p>{movieDetails?.overview || "No data available"}</p>
             </div>
             <div className="pb-8">
               <h2 className="pb-3.5">Cast</h2>
@@ -234,21 +231,22 @@ function Details() {
             ))}
             <img
               src={
-                movieDetails.poster_path
+                movieDetails?.poster_path
                   ? `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`
                   : defaultImgPoster
               }
-              alt={movieDetails.title}
+              alt={movieDetails?.title}
               className="rounded"
             />
             <div className="similar pt-8">
               <h2 className="pb-3.5">
-                People who also liked {movieDetails.title}
+                People who also liked {movieDetails?.title}
               </h2>
               <div className=" overflow-x-auto flex flex-nowrap">
+                {similarMoviesError && <Error />}
                 <div className="flex gap-3.5">
-                  {similarMovies && similarMovies.length > 0 ? (
-                    <Card movies={similarMovies} layout="horizontal" />
+                  {similarMovies && similarMovies.results.length > 0 ? (
+                    <Card movies={similarMovies.results} layout="horizontal" />
                   ) : (
                     <p>No similar movies available.</p>
                   )}
@@ -262,11 +260,11 @@ function Details() {
               <div className="mb-4 pb-4 border-b border-gray-900 relative">
                 <img
                   src={
-                    movieDetails.poster_path
+                    movieDetails?.poster_path
                       ? `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`
                       : defaultImgPoster
                   }
-                  alt={movieDetails.title}
+                  alt={movieDetails?.title}
                   className="rounded"
                 />
                 <div className="absolute flex justify-center bottom-[16px] w-full h-[40px] left-0 right-0 bg-gray-500 text-white rounded-b">
@@ -303,14 +301,14 @@ function Details() {
 
             <div className="pl-3.5">
               <div className="flex flex-wrap">
-                <h1>{movieDetails.title}</h1>
+                <h1>{movieDetails?.title}</h1>
                 <p className="text-lg pl-2">
-                  ({movieDetails.release_date.slice(0, 4)})
+                  ({movieDetails?.release_date.slice(0, 4)})
                 </p>
               </div>
               <div className="py-8">
                 <h2 className="pb-3.5">Sinopsis</h2>
-                <p>{movieDetails.overview || "No data available"}</p>
+                <p>{movieDetails?.overview || "No data available"}</p>
               </div>
               <div className="pb-8">
                 <h2 className="pb-3.5">Cast</h2>
@@ -343,14 +341,14 @@ function Details() {
                 )}
               </div>
               <h2 className="pb-3.5">
-                People who also liked {movieDetails.title}
+                People who also liked {movieDetails?.title}
               </h2>
               <div className=" overflow-x-auto flex flex-nowrap">
                 <div className="flex gap-3.5">
-                  {similarMovies && similarMovies.length > 0 ? (
-                    <Card movies={similarMovies} layout="horizontal" />
+                  {similarMovies && similarMovies.results.length > 0 ? (
+                    <Card movies={similarMovies.results} layout="horizontal" />
                   ) : (
-                    <p>No similar movies available.</p>
+                    <p>No data available</p>
                   )}
                 </div>
               </div>
@@ -363,4 +361,3 @@ function Details() {
 }
 
 export default Details;
-

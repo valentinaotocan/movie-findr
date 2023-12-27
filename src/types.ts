@@ -97,6 +97,15 @@ export interface FilterSortByProps {
   handleSortBy: (value: string) => void;
 }
 
+export interface UseFetchGenresProps {
+  endpoint: string;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 export interface FavoriteContextType {
   favorites: Movie[];
   favoritesChecker: (movie: Movie) => boolean;
