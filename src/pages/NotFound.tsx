@@ -2,7 +2,7 @@ import notFound from '../assets/images/404.png';
 
 function NotFound() {
   return (
-    <div className="flex flex-col items-center text-center px-custom pt-8">
+    <section className="flex flex-col items-center text-center px-custom pt-8">
       <div className="max-w-[28rem]">
         <img src={notFound} alt="Error 404" />
       </div>
@@ -10,7 +10,7 @@ function NotFound() {
       <p className="text-yellow-400 pt-5">
         The page you are looking for doesn't exist.
       </p>
-    </div>
+    </section>
   );
 }
 

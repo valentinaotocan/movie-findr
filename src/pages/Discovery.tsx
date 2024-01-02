@@ -1,5 +1,5 @@
 import Filters from "../components/Filters";
-import NewestMovies from "../components/NewestMovies"
+import NewestMovies from "../components/NewestMovies";
 import PopularByGenre from "../components/PopularByGenre";
 
 function Discovery() {
@@ -18,4 +18,4 @@ function Discovery() {
     </section>
   );
 }
-export default Discovery
+export default Discovery;

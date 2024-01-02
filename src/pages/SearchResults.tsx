@@ -1,27 +1,31 @@
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import Card from "../components/common/Card";
 import { Movie } from "../types";
-import Card from "../components/Card";
 
 function SearchResults() {
+  const navigate = useNavigate();
   const { state } = useLocation();
 
   return (
-    <div className="px-custom pt-2 pb-6">
+    <section className="px-custom pt-2 pb-6">
       <p className="pb-4">Search results for: {state.searchTerm}</p>
-      <div className="flex flex-wrap gap-4 justify-center">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(10.625rem,1fr))] gap-4">
         {state.suggestion.map((item: Movie) => (
-          <Link to={`/details/${item.id}`}>
-            <div key={item.id} className="w-[11.875rem]">
-              <Card movies={[item]} />
-              <div className="flex flex-col align-items">
-                <p className="truncate">{item.title}</p>
-                <p>{new Date(item.release_date).getFullYear()}</p>
-              </div>
+          <div
+            role="button"
+            onClick={() => navigate(`/details/${item.id}`)}
+            key={item.id}
+            className="cursor-pointer h-[19.563rem]"
+          >
+            <Card movies={[item]} layout="vertical" height="h-[16.875rem]" />
+            <div className="flex flex-col align-items">
+              <p className="truncate">{item.title}</p>
+              <p>{new Date(item.release_date).getFullYear()}</p>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 

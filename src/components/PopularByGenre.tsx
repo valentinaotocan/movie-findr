@@ -1,9 +1,9 @@
 import { useState } from "react";
 import useFetchMovies from "../hooks/useFetchMovies";
 import useFetchGenres from "../hooks/useFetchGenres";
-import Loading from "./Loading";
-import Error from "./Error";
-import Card from "./Card";
+import Loading from "./common/Loading";
+import Error from "./common/Error";
+import Card from "./common/Card";
 import { Genre } from "../types";
 
 function PopularByGenre() {

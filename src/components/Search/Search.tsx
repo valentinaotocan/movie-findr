@@ -1,82 +1,70 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Movie } from "../types";
+import useSWR from "swr";
+import { fetcher } from "../../api/fetcher";
+import { Movie } from "../../types";
 import debounce from "lodash.debounce";
 import SearchInput from "./SearchInput";
 import SearchSuggestions from "./SearchSuggestions";
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [suggestion, setSuggestion] = useState<Movie[]>([]);
+  const [debouncedTerm, setDebouncedTerm] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const navigate = useNavigate();
+
+  const { data, error, isLoading } = useSWR(
+    debouncedTerm
+      ? `https://api.themoviedb.org/3/search/movie?api_key=${
+          import.meta.env.VITE_API_KEY
+        }&query=${debouncedTerm}`
+      : null,
+    fetcher
+  );
 
   const autocomplete = useMemo(
     () =>
-      debounce(async (input) => {
-        setLoading(true);
-        try {
-          const response = await fetch(
-            `https://api.themoviedb.org/3/search/movie?api_key=${
-              import.meta.env.VITE_API_KEY
-            }&query=${input}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            setSuggestion(data.results);
-          } else {
-            setError(true);
-          }
-        } catch (error) {
-          setError(true);
-        } finally {
-          setLoading(false);
-        }
-      }, 400),
+      debounce((value) => {
+        setDebouncedTerm(value);
+        setIsTyping(false);
+      }, 300),
     []
   );
-
-   useEffect(() => {
-     return () => {
-       autocomplete.cancel();
-     };
-   }, [autocomplete]);
-  
-  useEffect(() => {
-    setError(false);
-  }, [searchTerm]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
+    setIsTyping(true);
     autocomplete(value);
     setShowSuggestions(value !== "");
   };
 
   const handleSelect = (selectedItem: string) => {
     setSearchTerm(selectedItem);
-    setSuggestion([]);
     setShowSuggestions(false);
     navigate("/details");
   };
 
-   const handleClear = () => {
-     setSearchTerm("");
-     setSuggestion([]);
-     setShowSuggestions(false);
-   };
+  const handleClear = () => {
+    setSearchTerm("");
+    setShowSuggestions(false);
+  };
 
   const handleSeeAllResults = () => {
     setShowSuggestions(false);
   };
 
-  const suggestionsWithImg = suggestion.filter((item) => item.poster_path);
+  const suggestionsWithImg =
+    data?.results.filter((item: Movie) => item.poster_path) || [];
 
   return (
     <>
-      <form className="w-full" autoComplete="off">
+      <form
+        className="w-full"
+        autoComplete="off"
+        onSubmit={(e) => e.preventDefault}
+      >
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -95,7 +83,7 @@ function Search() {
             } w-full rounded absolute z-20 py-3.5 px-4 mt-3`}
           >
             <SearchSuggestions
-              loading={loading}
+              isLoading={isLoading || isTyping}
               error={error}
               searchTerm={searchTerm}
               suggestionsWithImg={suggestionsWithImg}

@@ -1,26 +1,25 @@
 import { Link } from "react-router-dom";
-import Loading from "./Loading";
-import Error from "./Error";
-import { SearchSuggestionsProps } from "../types";
+import { SearchSuggestionsProps } from "../../types";
+import Loading from "../common/Loading";
+import Error from "../common/Error";
 
 function SearchSuggestions({
-  loading,
+  isLoading,
   error,
   suggestionsWithImg,
   handleSelect,
   handleSeeAllResults,
   searchTerm,
 }: SearchSuggestionsProps) {
-
-  const smallerView = window.matchMedia('(max-width: 842px)').matches;
+  const smallerView = window.matchMedia("(max-width: 842px)").matches;
   const sliceEnd = smallerView ? 4 : 6;
 
   return (
     <>
       <div className="flex flex-wrap gap-5">
-        {loading && <Loading />}
+        {isLoading && <Loading />}
         {error && <Error />}
-        {!loading && !error && suggestionsWithImg.length === 0 ? (
+        {!isLoading && !error && suggestionsWithImg.length === 0 ? (
           <p className="text-yellow-400">
             The searched term does not exist. Please try something else.
           </p>
@@ -51,7 +50,9 @@ function SearchSuggestions({
           state={{ suggestion: suggestionsWithImg, searchTerm: searchTerm }}
           onClick={handleSeeAllResults}
         >
-          <p className="mt-3.5 text-center">See all results</p>
+          <p className="mt-3.5 text-center hover:text-yellow-400">
+            See all results
+          </p>
         </Link>
       )}
     </>

@@ -1,15 +1,14 @@
 import { IoTriangleSharp } from "react-icons/io5";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import { FilterRatingProps } from "../types";
 import { GiCheckMark } from "react-icons/gi";
+import DropdownButton from "../common/DropdownButton";
+import { FilterProps } from "../../types";
 
-function FilterRating({
-  selectedRating,
-  onRatingChange,
+function Rating({
+  selectedValue,
+  onChange,
   isOpen,
   toggleDropdown,
-}: FilterRatingProps) {
-
+}: FilterProps<number | null>) {
   const ratingOptions = [
     { id: 1, label: "No rating", value: 0 },
     { id: 2, label: "Less or equal to 5", value: 5 },
@@ -18,27 +17,20 @@ function FilterRating({
   ];
 
   const handleReset = () => {
-    onRatingChange(null);
+    onChange(null);
   };
 
   return (
     <>
-      <button
-        onClick={toggleDropdown}
-        type="button"
-        className="flex items-center"
-      >
-        Rating
-        {isOpen ? (
-          <FaAngleUp className="ml-2" />
-        ) : (
-          <FaAngleDown className="ml-2" />
-        )}
-      </button>
+      <DropdownButton
+        isOpen={isOpen}
+        label="Rating"
+        toggle={toggleDropdown}
+      />
       {isOpen && (
         <>
-          <IoTriangleSharp className="absolute z-10 text-gray-600 top-[26px] -mb-[3px] ml-[50%] md:text-opacity-90" />
-          <div className="absolute z-10 p-3.5 rounded text-gray-300 bg-gray-600 mt-1 top-[36px] w-[220px] md:bg-opacity-90">
+          <IoTriangleSharp className="absolute z-10 text-gray-600 top-[1.625rem] -mb-[0.188rem] ml-[50%] md:text-opacity-90" />
+          <div className="absolute z-10 p-3.5 rounded text-gray-300 bg-gray-600 mt-1 top-9 w-[13.75rem] md:bg-opacity-90">
             <div className="flex justify-between pb-3">
               <p>Rating</p>
               <button onClick={handleReset}>Reset</button>
@@ -48,15 +40,15 @@ function FilterRating({
                 <div
                   key={rating.id}
                   className={`cursor-pointer w-full text-left flex items-center ${
-                    selectedRating === rating.value
+                    selectedValue === rating.value
                       ? "text-yellow-400 font-semibold"
                       : ""
                   }`}
-                  onClick={() => onRatingChange(rating.value)}
+                  onClick={() => onChange(rating.value)}
                 >
                   <GiCheckMark
                     className={
-                      selectedRating === rating.value
+                      selectedValue === rating.value
                         ? "text-yellow-400"
                         : "text-gray-700"
                     }
@@ -72,5 +64,4 @@ function FilterRating({
   );
 }
 
-export default FilterRating;
-
+export default Rating;

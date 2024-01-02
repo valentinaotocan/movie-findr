@@ -1,60 +1,77 @@
 export interface Movie {
-  id: number;
-  poster_path: string;
+  id?: string;
   title: string;
+  poster_path?: string;
   release_date: string;
-  overview: string;
-  movie_id: number;
 }
 
-export interface MovieDetails {
-  backdrop_path: string;
-  budget: number;
-  revenue: number;
-  genres: {
-    name: string;
-  }[];
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  production_countries: {
-    name: string;
-  }[];
-  release_date: string;
-  runtime: number;
-  title: string;
-  vote_average: number;
+// Favorite
+export interface FavoriteContextType {
+  favorites: Movie[];
+  favoritesChecker: (movie: Movie) => boolean;
+  addToFavorites: (movie: Movie) => void;
+  removeFromFavorites: (movie: Movie) => void;
+}
+
+// Detail Page
+export interface BackdropImageProps {
+  backdrop_path: string | null;
+}
+
+export interface RolesProps {
   credits: {
     cast: {
       original_name: string;
       character: string;
       id: number;
     }[];
-    crew: {
-      name: string;
-      job: string;
-    }[];
-  };
-  similar: {
-    results: {
-      poster_path: string;
-    }[];
-  };
-  videos?: {
-    results?: {
-      key: string;
-      site: string;
-      type: string;
-      id: string;
-    }[];
   };
 }
 
+export interface TrailerProps {
+  videos: {
+    key: string;
+    type: string;
+  }[];
+}
+
+export interface MovieDetails {
+  vote_average: number;
+  popularity: number;
+  genres: { name: string }[];
+  runtime: number;
+  budget: number;
+  revenue: number;
+  credits: {
+    crew: { job: string; name: string }[];
+  }
+  production_countries: { name: string }[];
+}
+
+export interface FavoriteProps {
+  movie: Movie;
+}
+
+export interface InfoListsProps {
+  details: MovieDetails;
+  borderLastItem: boolean;
+}
+
+// Common components
 export interface CardProps {
   movies: Movie[];
   layout: string;
+  height?: string;
 }
 
+export interface DropdownProps {
+  isOpen: boolean;
+  label: string;
+  toggle: () => void;
+  className?: string;
+}
+
+// Search
 export interface SearchInputProps {
   searchTerm: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -62,7 +79,7 @@ export interface SearchInputProps {
 }
 
 export interface SearchSuggestionsProps {
-  loading: boolean;
+  isLoading: boolean;
   error: boolean;
   suggestionsWithImg: Movie[];
   handleSelect: (selectedItem: string) => void;
@@ -70,45 +87,25 @@ export interface SearchSuggestionsProps {
   searchTerm: string;
 }
 
-export interface FilterGenreProps {
-  genres: { id: number; name: string }[];
-  selectedGenres: number[];
-  onGenreChange: (genreId: number[]) => void;
-  isOpen: boolean;
-  toggleDropdown: () => void;
-}
-
-export interface FilterRuntimeProps {
-  selectedRuntime: number | null;
-  onRuntimeChange: (runtime: number | null) => void;
-  isOpen: boolean;
-  toggleDropdown: () => void;
-}
-
-export interface FilterRatingProps {
-  selectedRating: number | null;
-  onRatingChange: (rating: number | null) => void;
-  isOpen: boolean;
-  toggleDropdown: () => void;
-}
-
-export interface FilterSortByProps {
-  selectedSortBy: string;
-  handleSortBy: (value: string) => void;
-}
-
-export interface UseFetchGenresProps {
-  endpoint: string;
-}
-
+// 
 export interface Genre {
   id: number;
   name: string;
 }
 
-export interface FavoriteContextType {
-  favorites: Movie[];
-  favoritesChecker: (movie: Movie) => boolean;
-  addToFavorites: (movie: Movie) => void;
-  removeFromFavorites: (movie: Movie) => void;
+// Filter
+export interface FilterProps<T> {
+  selectedValue: T;
+  onChange: (value: T) => void;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+}
+
+export interface GenreProps extends FilterProps<number[]> {
+  genres: Genre[];
+}
+
+export interface SortByProps {
+  selectedSortBy: string;
+  handleSortBy: (value: string) => void;
 }

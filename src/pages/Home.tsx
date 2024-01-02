@@ -5,7 +5,7 @@ import filmReelLarge from "../assets/images/filmReel-large.jpg";
 
 function Home() {
   return (
-    <div className="relative h-[calc(100vh-4rem)] pb-3.5 px-custom md:h-[calc(100vh-7rem)]">
+    <section className="relative h-[calc(100vh-4rem)] pb-3.5 px-custom md:h-[calc(100vh-7rem)]">
       <picture>
         <source media="(max-width: 640px)" srcSet={filmReelSmall} />
         <source media="(max-width: 1024px)" srcSet={filmReelMedium} />
@@ -27,7 +27,8 @@ function Home() {
           Discover Movies
         </button>
       </NavLink>
-    </div>
+    </section>
   );
 }
+
 export default Home;

@@ -1,4 +1,4 @@
-import { SearchInputProps } from "../types";
+import { SearchInputProps } from "../../types";
 import { ImSearch } from "react-icons/im";
 import { BsXCircleFill } from "react-icons/bs";
 
@@ -26,4 +26,5 @@ function SearchInput({ searchTerm, onChange, onClear }: SearchInputProps) {
     </>
   );
 }
+
 export default SearchInput;

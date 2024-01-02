@@ -1,11 +1,11 @@
 import useFetchMovies from "../hooks/useFetchMovies";
-import Loading from "./Loading";
-import Error from "./Error";
-import Card from "./Card";
+import Loading from "./common/Loading";
+import Error from "./common/Error";
+import Card from "./common/Card";
 
 function NewestMovies() {
   const today = new Date().toISOString().split("T")[0];
-  const {movies, isLoading, error} = useFetchMovies("/discover/movie/", {
+  const { movies, isLoading, error } = useFetchMovies("/discover/movie/", {
     sort_by: "primary_release_date.desc",
     "primary_release_date.lte": today,
     with_original_language: "en",

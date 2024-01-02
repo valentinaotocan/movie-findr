@@ -1,6 +1,5 @@
-import { FilterSortByProps } from "../types";
-
-function FilterSortBy({ selectedSortBy, handleSortBy }: FilterSortByProps) {
+import { SortByProps } from "../../types";
+function SortBy({ selectedSortBy, handleSortBy }: SortByProps) {
   return (
     <div className="px-custom flex items-center my-3 md:bg-gray-900 md:my-0 md:pb-6">
       <p className="pr-2">Sort by:</p>
@@ -17,4 +16,4 @@ function FilterSortBy({ selectedSortBy, handleSortBy }: FilterSortByProps) {
   );
 }
 
-export default FilterSortBy;
+export default SortBy;

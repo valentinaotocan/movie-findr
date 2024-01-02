@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaXmark } from "react-icons/fa6";
-import Search from "./Search";
-import Favorites from "./Favorites";
+import Search from "./Search/Search";
+import Favorites from "./FavoriteMovies";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +20,12 @@ function Navbar() {
         <Link to="/" className="text-yellow-400 text-2xl">
           MovieFindr
         </Link>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/discover">Discovery</NavLink>
+        <NavLink to="/" className="hover:text-[--medium-grey-2]">
+          Home
+        </NavLink>
+        <NavLink to="/discover" className="hover:text-[--medium-grey-2]">
+          Discovery
+        </NavLink>
         <Search />
         <Favorites />
       </nav>
@@ -32,7 +36,7 @@ function Navbar() {
           <Link to="/" className="text-yellow-400 text-2xl">
             MovieFindr
           </Link>
-          <div className="text-[20px] text-white" onClick={handleMenu}>
+          <div className="text-[1.25rem] text-white" onClick={handleMenu}>
             {isOpen ? (
               <FaXmark className="absolute z-30 right-4 top-[1.125rem]" />
             ) : (
@@ -58,4 +62,5 @@ function Navbar() {
     </>
   );
 }
+
 export default Navbar;
