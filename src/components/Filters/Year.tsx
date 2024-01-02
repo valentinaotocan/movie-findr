@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoTriangleSharp } from "react-icons/io5";
 import DropdownButton from "../common/DropdownButton";
 import { FilterProps } from "../../types";
@@ -12,6 +12,10 @@ function Year({
   const currentYear = new Date().getFullYear();
   const [tooltip, setTooltip] = useState<number>(selectedValue || 0);
 
+ useEffect(() => {
+   setTooltip(selectedValue === null ? 0 : selectedValue);
+ }, [selectedValue]);
+
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newYear = parseInt(event.target.value, 10);
     setTooltip(newYear);
@@ -22,7 +26,7 @@ function Year({
   };
 
   const handleReset = () => {
-    setTooltip(1900);
+    setTooltip(0);
     onChange(null);
   };
 

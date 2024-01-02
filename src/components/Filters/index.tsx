@@ -56,8 +56,6 @@ function Filters() {
     setOpenDropdown(null);
   };
 
-  const components = [Year, Genre, Runtime, Rating];
-
   return (
     <section>
       <div className="flex gap-10 mt-6 mx-[6%] md:mx-0 md:px-[0.938rem] md:py-6 bg-gray-900 rounded h-[2.625rem] items-center pl-1 md:items-start md:flex-col md:h-full">
