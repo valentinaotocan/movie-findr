@@ -28,7 +28,9 @@ MovieFindr fetches movie data from the TMDB (The Movie Database) API. The integr
 1. git clone https://github.com/valentinaotocan/movie-finder
 2. cd movie-finder
 3. npm install
-4. npm run dev 
+4. Create a `.env` file in the root directory
+5. Inside the `.env` file, add `VITE_API_KEY = yourTMDBKey`
+6. npm run dev 
 <br />
 or using Docker:  <br />
 &nbsp 1. git clone https://github.com/valentinaotocan/movie-finder <br />
