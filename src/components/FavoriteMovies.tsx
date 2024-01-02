@@ -4,7 +4,7 @@ import { FavoritesContext } from "../context/FavoritesContext";
 import { FaBookmark } from "react-icons/fa6";
 import DropdownButton from "./common/DropdownButton";
 
-function FavoriteMovies() {
+function FavoriteMovies({ onMovieSelect }: { onMovieSelect: () => void }) {
   const [dropdown, setDropdown] = useState(false);
   const { favorites, favoritesChecker, removeFromFavorites } =
     useContext(FavoritesContext);
@@ -23,25 +23,28 @@ function FavoriteMovies() {
       {dropdown && (
         <div className="z-20 absolute rounded-lg w-44 dark:bg-gray-500 text-white mt-3 top-[3.25rem] right-[4%] md:right-[unset] md:top-[10.3rem] overflow-auto max-h-[31.25rem] md:max-h-[18.75rem]">
           {favorites.length > 0 ? (
-            favorites.map((item) => (
+            favorites.map((movie) => (
               <div
-                key={item.id}
+                key={movie.id}
                 className="border-b-[0.063rem] last:border-b-0 border-b-gray-600 hover:bg-gray-100 dark:hover:bg-gray-400 dark:hover:text-white hover:rounded-lg"
               >
-                {favoritesChecker(item) && (
+                {favoritesChecker(movie) && (
                   <FaBookmark
                     className="absolute text-[1.625rem] left-1 text-yellow-500 hover:text-opacity-70 cursor-pointer"
-                    onClick={() => removeFromFavorites(item)}
+                    onClick={() => removeFromFavorites(movie)}
                   />
                 )}
                 <Link
-                  to={`/details/${item.id}`}
+                  to={`/details/${movie.id}`}
                   className="block px-4 py-2"
-                  onClick={() => setDropdown(!dropdown)}
+                  onClick={() => {
+                    setDropdown(!dropdown);
+                    onMovieSelect();
+                  }}
                 >
-                  <p className="indent-5">{item.title}</p>
+                  <p className="indent-5">{movie.title}</p>
                   <p className="text-center">
-                    {new Date(item.release_date).getFullYear()}
+                    {new Date(movie.release_date).getFullYear()}
                   </p>
                 </Link>
               </div>
