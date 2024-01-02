@@ -5,6 +5,25 @@ export interface Movie {
   release_date: string;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+// Common components
+export interface CardProps {
+  movies: Movie[];
+  layout: string;
+  height?: string;
+}
+
+export interface DropdownProps {
+  isOpen: boolean;
+  label: string;
+  toggle: () => void;
+  className?: string;
+}
+
 // Favorite
 export interface FavoriteContextType {
   favorites: Movie[];
@@ -57,20 +76,6 @@ export interface InfoListsProps {
   borderLastItem: boolean;
 }
 
-// Common components
-export interface CardProps {
-  movies: Movie[];
-  layout: string;
-  height?: string;
-}
-
-export interface DropdownProps {
-  isOpen: boolean;
-  label: string;
-  toggle: () => void;
-  className?: string;
-}
-
 // Search
 export interface SearchInputProps {
   searchTerm: string;
@@ -85,12 +90,6 @@ export interface SearchSuggestionsProps {
   handleSelect: (selectedItem: string) => void;
   handleSeeAllResults: () => void;
   searchTerm: string;
-}
-
-// 
-export interface Genre {
-  id: number;
-  name: string;
 }
 
 // Filter
