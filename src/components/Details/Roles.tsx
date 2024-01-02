@@ -8,7 +8,8 @@ function Roles({ credits }: RolesProps) {
         {credits.cast.length > 0 ? (
           credits.cast.map((actor) => (
             <li key={actor.id}>
-              {actor.original_name} as {actor.character}
+              {actor.original_name} as{" "}
+              <span className="text-gray-100">{actor.character}</span>
             </li>
           ))
         ) : (

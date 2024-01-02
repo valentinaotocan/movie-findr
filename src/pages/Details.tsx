@@ -13,7 +13,7 @@ import Base from "../components/Details/Base";
 import Synopsis from "../components/Details/Synopsis";
 import Favorite from "../components/Details/Favorite";
 import PosterImage from "../components/Details/PosterImage";
-import InfoLists from "../components/Details/InfoLists";
+import InfoList from "../components/Details/InfoList";
 
 function Details() {
   const [isSmallerView, setIsSmallerView] = useState(
@@ -58,7 +58,7 @@ function Details() {
             <Synopsis overview={data.overview} />
             <Roles credits={data.credits} />
             <Trailer videos={data.videos.results} />
-            <InfoLists details={data} borderLastItem={true} />
+            <InfoList details={data} />
             <PosterImage {...data} />
             <div className="similar pt-8">
               <SimilarMovies />
@@ -73,7 +73,7 @@ function Details() {
                   <Favorite movie={data} />
                 </div>
               </div>
-              <InfoLists details={data} borderLastItem={false} />
+              <InfoList details={data} />
             </div>
             <div className="pl-3.5">
               <div className="flex flex-wrap">

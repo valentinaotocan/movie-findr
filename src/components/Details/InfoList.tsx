@@ -1,8 +1,9 @@
-import { InfoListsProps } from "../../types";
+import { InfoListProps } from "../../types";
 
-function InfoLists ({details, borderLastItem}: InfoListsProps) {
-
-  const director = details.credits.crew.find((member) => member.job === "Director");
+function InfoList({ details }: InfoListProps) {
+  const director = details.credits.crew.find(
+    (member) => member.job === "Director"
+  );
 
   const productionCountry = details.production_countries
     ?.map((country) => country.name)
@@ -21,15 +22,13 @@ function InfoLists ({details, borderLastItem}: InfoListsProps) {
     { label: "Budget", value: `${details.budget.toLocaleString("de-DE")}$` },
     { label: "Revenue", value: `${details.revenue.toLocaleString("de-DE")}$` },
   ];
-  
+
   return (
     <>
       {detailInfos.map((info, index) => (
         <div
           className={`mb-4 pb-4 ${
-            !borderLastItem && index === detailInfos.length - 1
-              ? ""
-              : "border-b border-gray-900"
+            index === detailInfos.length - 1 ? "" : "border-b border-gray-900"
           }`}
           key={index}
         >
@@ -41,4 +40,4 @@ function InfoLists ({details, borderLastItem}: InfoListsProps) {
   );
 }
 
-export default InfoLists
+export default InfoList;

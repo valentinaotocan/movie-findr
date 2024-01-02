@@ -71,9 +71,8 @@ export interface FavoriteProps {
   movie: Movie;
 }
 
-export interface InfoListsProps {
+export interface InfoListProps {
   details: MovieDetails;
-  borderLastItem: boolean;
 }
 
 // Search
