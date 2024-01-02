@@ -21,7 +21,7 @@ function FavoriteMovies({ onMovieSelect }: { onMovieSelect: () => void }) {
         } rounded`}
       />
       {dropdown && (
-        <div className="z-20 absolute rounded-lg w-44 dark:bg-gray-500 text-white mt-3 top-[3.25rem] right-[4%] md:right-[unset] md:top-[10.3rem] overflow-auto max-h-[31.25rem] md:max-h-[18.75rem]">
+        <div className="z-20 absolute rounded-lg w-44 dark:bg-gray-500 text-white mt-3 top-[3.25rem] right-[4%] md:right-[unset] md:top-[10.3rem] overflow-auto max-h-[20rem] fav-h">
           {favorites.length > 0 ? (
             favorites.map((movie) => (
               <div

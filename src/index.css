@@ -99,3 +99,15 @@ input[type="range"] {
     padding-right: 1rem;
   }
 }
+
+@media(max-height: 545px) {
+  .fav-h {
+    max-height: 12.5rem;
+  }
+}
+
+@media(max-height: 375px) {
+  .fav-h {
+    max-height: 5.313rem;
+  }
+}
