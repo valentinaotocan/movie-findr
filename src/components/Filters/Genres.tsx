@@ -1,9 +1,10 @@
-import { IoTriangleSharp } from "react-icons/io5";
 import { GiCheckMark } from "react-icons/gi";
 import DropdownButton from "../common/DropdownButton";
+import LabelReset from "./LabelReset";
 import { GenreProps } from "../../types";
+import TriangleSharp from "./TriangleSharp";
 
-function Genre({
+function Genres({
   genres,
   selectedValue,
   onChange,
@@ -22,21 +23,16 @@ function Genre({
     onChange([]);
   };
 
+  const label = "Genres";
+
   return (
     <>
-      <DropdownButton
-        isOpen={isOpen}
-        label="Genres"
-        toggle={toggleDropdown}
-      />
+      <DropdownButton isOpen={isOpen} label={label} toggle={toggleDropdown} />
       {isOpen && (
         <>
-          <IoTriangleSharp className="absolute z-10 text-gray-600 top-[1.625rem] ml-[50%] md:text-opacity-90" />
+          <TriangleSharp />
           <div className="absolute z-10 p-3.5 text-gray-300 rounded bg-gray-600 mt-1 w-[18.125rem] top-[2.25rem] md:bg-opacity-90 md:w-[15.625rem] md:h-[8.125rem] md:overflow-y-scroll">
-            <div className="flex justify-between pb-3">
-              <p>Genres</p>
-              <button onClick={handleReset}>Reset</button>
-            </div>
+            <LabelReset label={label} onReset={handleReset} />
             <div className="grid grid-cols-2 gap-x-2.5 gap-3 md:grid-cols-1">
               {genres.map((genre) => (
                 <div
@@ -66,4 +62,4 @@ function Genre({
   );
 }
 
-export default Genre;
+export default Genres;

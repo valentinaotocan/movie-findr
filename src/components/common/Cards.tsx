@@ -2,11 +2,10 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FavoritesContext } from "../../context/FavoritesContext";
 import { FaBookmark } from "react-icons/fa6";
-import { CardProps } from "../../types";
+import { CardsProps } from "../../types";
 
-function Card({ movies, layout, height }: CardProps) {
-  const { favoritesChecker, addToFavorites, removeFromFavorites } =
-    useContext(FavoritesContext);
+function Cards({ movies, layout, height }: CardsProps) {
+  const { favoritesChecker, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
   const moviesWithImg = movies.filter((movie) => movie.poster_path);
 
@@ -33,8 +32,11 @@ function Card({ movies, layout, height }: CardProps) {
             />
           ) : (
             <FaBookmark
-              className="absolute text-[1.625rem] -top-[0.125rem] left-0 pl-2 text-gray-300 hover:text-white cursor-pointer"
-              onClick={() => addToFavorites(movie)}
+                className="absolute text-[1.625rem] -top-[0.125rem] left-0 pl-2 text-gray-300 hover:text-white cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addToFavorites(movie)
+                }}
             />
           )}
         </div>
@@ -42,4 +44,4 @@ function Card({ movies, layout, height }: CardProps) {
     </>
   );
 }
-export default Card;
+export default Cards;

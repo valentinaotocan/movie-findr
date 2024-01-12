@@ -1,7 +1,7 @@
 import useFetchMovies from "../hooks/useFetchMovies";
 import Loading from "./common/Loading";
 import Error from "./common/Error";
-import Card from "./common/Card";
+import Cards from "./common/Cards";
 
 function NewestMovies() {
   const today = new Date().toISOString().split("T")[0];
@@ -18,7 +18,7 @@ function NewestMovies() {
       {error && <Error />}
       <div className="overflow-x-auto flex flex-nowrap">
         <div className="flex flex gap-3.5">
-          <Card movies={movies} layout="horizontal" />
+          <Cards movies={movies} layout="horizontal" />
         </div>
       </div>
     </section>

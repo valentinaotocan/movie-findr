@@ -6,8 +6,7 @@ import DropdownButton from "./common/DropdownButton";
 
 function FavoriteMovies({ onMovieSelect }: { onMovieSelect: () => void }) {
   const [dropdown, setDropdown] = useState(false);
-  const { favorites, favoritesChecker, removeFromFavorites } =
-    useContext(FavoritesContext);
+  const { favorites, removeFromFavorites } = useContext(FavoritesContext);
   return (
     <>
       <DropdownButton
@@ -28,12 +27,10 @@ function FavoriteMovies({ onMovieSelect }: { onMovieSelect: () => void }) {
                 key={movie.id}
                 className="border-b-[0.063rem] last:border-b-0 border-b-gray-600 hover:bg-gray-100 dark:hover:bg-gray-400 dark:hover:text-white hover:rounded-lg"
               >
-                {favoritesChecker(movie) && (
                   <FaBookmark
                     className="absolute text-[1.625rem] left-1 text-yellow-500 hover:text-opacity-70 cursor-pointer"
                     onClick={() => removeFromFavorites(movie)}
                   />
-                )}
                 <Link
                   to={`/details/${movie.id}`}
                   className="block px-4 py-2"
@@ -44,7 +41,11 @@ function FavoriteMovies({ onMovieSelect }: { onMovieSelect: () => void }) {
                 >
                   <p className="indent-5">{movie.title}</p>
                   <p className="text-center">
-                    {new Date(movie.release_date).getFullYear()}
+                    <p>
+                      {movie.release_date
+                        ? new Date(movie.release_date).getFullYear()
+                        : "N/A"}
+                    </p>
                   </p>
                 </Link>
               </div>

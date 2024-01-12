@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { IoTriangleSharp } from "react-icons/io5";
 import DropdownButton from "../common/DropdownButton";
 import { FilterProps } from "../../types";
+import LabelReset from "./LabelReset";
+import TriangleSharp from "./TriangleSharp";
 
 function Year({
   selectedValue,
@@ -32,22 +33,16 @@ function Year({
 
   const isYearSelected = selectedValue === tooltip && selectedValue !== null;
 
+  const label = "Year";
+
   return (
     <>
-      <DropdownButton
-        isOpen={isOpen}
-        label="Year"
-        toggle={toggleDropdown}
-      />
+      <DropdownButton isOpen={isOpen} label={label} toggle={toggleDropdown} />
       {isOpen && (
         <>
-          <IoTriangleSharp className="absolute z-10 text-gray-600 top-[1.625rem] -mb-[0.188rem] ml-[50%] md:text-opacity-90" />
+          <TriangleSharp />
           <div className="absolute z-10 p-3.5 rounded text-gray-300 bg-gray-600 mt-1 top-9 w-[15.625rem] md:bg-opacity-90">
-            <div className="flex justify-between">
-              <p>Year</p>
-              <button onClick={handleReset}>Reset</button>
-            </div>
-
+            <LabelReset label={label} onReset={handleReset} />
             <div
               className={`flex justify-center pb-1 text-${
                 isYearSelected ? "yellow-400" : "gray-300"

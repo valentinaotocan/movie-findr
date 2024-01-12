@@ -1,18 +1,12 @@
 import { Link } from "react-router-dom";
 import { SearchSuggestionsProps } from "../../types";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import Loading from "../common/Loading";
 import Error from "../common/Error";
 
-function SearchSuggestions({
-  isLoading,
-  error,
-  suggestionsWithImg,
-  handleSelect,
-  handleSeeAllResults,
-  searchTerm,
-}: SearchSuggestionsProps) {
-  const smallerView = window.matchMedia("(max-width: 842px)").matches;
-  const sliceEnd = smallerView ? 4 : 6;
+function SearchSuggestions({ isLoading, error, suggestionsWithImg, handleSelect, handleSeeAllResults, searchTerm }: SearchSuggestionsProps) {
+  const isSmallerView = useMediaQuery("(max-width: 842px)");
+  const sliceEnd = isSmallerView ? 4 : 6;
 
   return (
     <>
@@ -38,7 +32,11 @@ function SearchSuggestions({
               />
               <div className="flex flex-col px-2.5 w-[5rem]">
                 <p className="truncate">{item.title}</p>
-                <p>{new Date(item.release_date).getFullYear()}</p>
+                <p>
+                  {item.release_date
+                    ? new Date(item.release_date).getFullYear()
+                    : "N/A"}
+                </p>
               </div>
             </Link>
           ))

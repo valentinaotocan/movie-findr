@@ -1,9 +1,8 @@
 import { useState, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaXmark } from "react-icons/fa6";
-import Search from "./Search/Search";
-import Favorites from "./FavoriteMovies";
-import FavoriteMovies from "./FavoriteMovies";
+import Search from "../Search";
+import FavoriteMovies from "../FavoriteMovies";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

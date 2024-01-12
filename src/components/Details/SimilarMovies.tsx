@@ -1,32 +1,24 @@
-import useSWR from "swr";
 import { useParams } from "react-router-dom";
-import { fetcher } from "../../api/fetcher";
-import { baseUrl, apiKey } from "../../api/config";
-import Card from "../common/Card";
+import Cards from "../common/Cards";
 import Loading from "../common/Loading";
 import Error from "../common/Error";
+import useFetchMovies from "../../hooks/useFetchMovies";
 
-function SimilarMovies() {
+function SimilarMovies({title}: {title: string}) {
   const { movie_id } = useParams();
-  const movieIdNum = movie_id ? parseInt(movie_id, 10) : undefined;
 
-  const { data, error, isLoading } = useSWR(
-    movieIdNum
-      ? `${baseUrl}/movie/${movie_id}/similar?api_key=${apiKey}&language=en-US`
-      : null,
-    fetcher
-  );
+    const { movies, isLoading, error } = useFetchMovies(`/movie/${movie_id}/similar`);
 
   if (isLoading) return <Loading />;
   if (error) return <Error />;
 
   return (
     <>
-      <h2 className="pb-3.5">People who also liked {data.title}</h2>
+      <h2 className="pb-3.5">People who also liked: {title}</h2>
       <div className="overflow-x-auto flex flex-nowrap">
         <div className="flex gap-3.5">
-          {(data.results && data.results.length > 0) ? (
-            <Card movies={data.results} layout="horizontal" />
+          {movies && movies.length > 0 ? (
+            <Cards movies={movies} layout="horizontal" />
           ) : (
             <p>No similar movies available</p>
           )}

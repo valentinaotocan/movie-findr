@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import Card from "../components/common/Card";
+import Cards from "../components/common/Cards";
 import { Movie } from "../types";
 
 function SearchResults() {
@@ -17,10 +17,14 @@ function SearchResults() {
             key={item.id}
             className="cursor-pointer h-[19.563rem]"
           >
-            <Card movies={[item]} layout="vertical" height="h-[16.875rem]" />
+            <Cards movies={[item]} layout="vertical" height="h-[16.875rem]" />
             <div className="flex flex-col align-items">
               <p className="truncate">{item.title}</p>
-              <p>{new Date(item.release_date).getFullYear()}</p>
+              <p>
+                {item.release_date
+                  ? new Date(item.release_date).getFullYear()
+                  : "N/A"}
+              </p>
             </div>
           </div>
         ))}

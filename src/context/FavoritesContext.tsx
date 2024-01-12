@@ -20,7 +20,12 @@ export const FavoritesProvider = ({ children }: { children: React.ReactNode }) =
   };
 
   const addToFavorites = (movie: Movie) => {
-    const myFavorites = [...favorites, movie];
+    const saveAs = {
+      id: movie.id,
+      title: movie.title,
+      release_date: movie.release_date
+    }
+    const myFavorites = [...favorites, saveAs];
     setFavorites(myFavorites);
     localStorage.setItem("my-favorite", JSON.stringify(myFavorites));
   };

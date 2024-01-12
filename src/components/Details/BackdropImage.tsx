@@ -35,7 +35,7 @@ function BackdropImage({ backdrop_path }: BackdropImageProps) {
             ? `https://image.tmdb.org/t/p/original/${backdrop_path}`
             : defaultBackdropL
         }
-        alt=""
+        alt="Image"
         className="h-[28.125rem] w-full object-cover md:h-[15.625rem]"
       />
     </picture>

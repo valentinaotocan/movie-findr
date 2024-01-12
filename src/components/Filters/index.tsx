@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { FaFilter } from "react-icons/fa";
+import { FaFilter, FaUndo } from "react-icons/fa";
 import useFetchMovies from "../../hooks/useFetchMovies";
 import useFetchGenres from "../../hooks/useFetchGenres";
-import { genreQueryParam, runtimeQueryParam, ratingQueryParam } from "../../api/queryParams";
+import queryParams from "./queryParams";
 import SortBy from "./SortBy";
 import Year from "./Year";
-import Genre from "./Genre";
+import Genre from "./Genres";
 import Runtime from "./Runtime";
 import Rating from "./Rating";
 import Loading from "../common/Loading";
 import Error from "../common/Error";
-import Card from "../common/Card";
+import Card from "../common/Cards";
 
 function Filters() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -23,20 +23,13 @@ function Filters() {
     selectedRating: null,
   });
 
-  const { movies, isLoading, error } = useFetchMovies("/discover/movie/", {
-    sort_by: `${filters.selectedSortBy}.desc`,
-    ...(filters.selectedYear !== null && { year: filters.selectedYear }),
-    ...genreQueryParam(filters.selectedGenres),
-    ...(filters.selectedRuntime !== null
-      ? runtimeQueryParam(filters.selectedRuntime)
-      : {}),
-    ...(filters.selectedRating !== null
-      ? ratingQueryParam(filters.selectedRating)
-      : {}),
-  });
+  const { movies, isLoading, error } = useFetchMovies(
+    "/discover/movie/",
+    queryParams(filters)
+  );
 
-  const { genres } = useFetchGenres({ endpoint: "/genre/movie/list" });
-  
+  const { genres } = useFetchGenres();
+
   const updateFilters = (newFilters: any) => {
     setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
   };
@@ -64,12 +57,15 @@ function Filters() {
             <FaFilter />
             <h2 className="pl-3.5">Filters:</h2>
           </div>
-          <div onClick={handleResetAll} className="hidden md:block text-right">
+          <div onClick={handleResetAll} className="hidden md:block text-right md:flex md:items-center">
+            <span className="pr-1 text-xs">
+              <FaUndo />
+            </span>
             Reset
           </div>
         </div>
 
-         <div className="relative">
+        <div className="relative">
           <Year
             selectedValue={filters.selectedYear}
             onChange={(year) => updateFilters({ selectedYear: year })}
@@ -99,13 +95,19 @@ function Filters() {
         <div className="relative">
           <Rating
             selectedValue={filters.selectedRating}
-            onChange={(rating) => updateFilters({selectedRating: rating})}
+            onChange={(rating) => updateFilters({ selectedRating: rating })}
             isOpen={openDropdown === "ratingDropdown"}
             toggleDropdown={() => toggleDropdown("ratingDropdown")}
           />
         </div>
 
-        <button onClick={handleResetAll} className="md:hidden ml-auto pr-2">
+        <button
+          onClick={handleResetAll}
+          className="md:hidden ml-auto pr-2 flex items-center"
+        >
+          <span className="pr-1 text-xs">
+            <FaUndo />
+          </span>
           Reset
         </button>
       </div>

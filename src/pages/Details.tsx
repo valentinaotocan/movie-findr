@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
 import useSWR from "swr";
 import { fetcher } from "../api/fetcher";
 import { baseUrl, apiKey } from "../api/config";
+import useMediaQuery from "../hooks/useMediaQuery";
 import Loading from "../components/common/Loading";
 import Error from "../components/common/Error";
 import BackdropImage from "../components/Details/BackdropImage";
@@ -16,9 +16,7 @@ import PosterImage from "../components/Details/PosterImage";
 import InfoList from "../components/Details/InfoList";
 
 function Details() {
-  const [isSmallerView, setIsSmallerView] = useState(
-    window.matchMedia("(max-width: 786px)").matches
-  );
+  const isSmallerView = useMediaQuery("(max-width: 786px)");
 
   const { movie_id } = useParams();
 
@@ -26,14 +24,6 @@ function Details() {
     `${baseUrl}/movie/${movie_id}?api_key=${apiKey}&language=en-US&append_to_response=credits,videos`,
     fetcher
   );
-
-  useEffect(() => {
-    const handler = (e: MediaQueryListEvent) => setIsSmallerView(e.matches);
-    const mediaQuery = window.matchMedia("(max-width: 786px)");
-    mediaQuery.addEventListener("change", handler);
-
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -59,16 +49,19 @@ function Details() {
             <Roles credits={data.credits} />
             <Trailer videos={data.videos.results} />
             <InfoList details={data} />
-            <PosterImage {...data} />
+            <PosterImage poster_path={data.poster_path} title={data.title} />
             <div className="similar pt-8">
-              <SimilarMovies />
+              <SimilarMovies title={data.title} />
             </div>
           </div>
         ) : (
           <div className="grid grid-cols-[1fr,minmax(0,2fr)]">
             <div className="pr-3.5">
               <div className="mb-4 pb-4 border-b border-gray-900 relative">
-                <PosterImage {...data} />
+                <PosterImage
+                  poster_path={data.poster_path}
+                  title={data.title}
+                />
                 <div className="absolute flex justify-center bottom-4 w-full h-10 left-0 right-0 bg-gray-500 text-white rounded-b">
                   <Favorite movie={data} />
                 </div>
@@ -82,7 +75,7 @@ function Details() {
               <Synopsis overview={data.overview} />
               <Roles credits={data.credits} />
               <Trailer videos={data.videos.results} />
-              <SimilarMovies />
+              <SimilarMovies title={data.title} />
             </div>
           </div>
         )}
