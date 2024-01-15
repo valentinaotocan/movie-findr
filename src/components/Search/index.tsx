@@ -4,7 +4,7 @@ import { Movie } from "../../types";
 import debounce from "lodash.debounce";
 import SearchInput from "./SearchInput";
 import SearchSuggestions from "./SearchSuggestions";
-import  useFetchMovies from '../../hooks/useFetchMovies';
+import useFetchMovies from "../../hooks/useFetchMovies";
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,8 +49,7 @@ function Search() {
     setShowSuggestions(false);
   };
 
-  const suggestionsWithImg =
-    movies.filter((item: Movie) => item.poster_path) || [];
+  const suggestionsWithImg = movies.filter((item: Movie) => item.poster_path);
 
   return (
     <form

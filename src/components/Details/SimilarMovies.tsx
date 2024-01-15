@@ -4,10 +4,12 @@ import Loading from "../common/Loading";
 import Error from "../common/Error";
 import useFetchMovies from "../../hooks/useFetchMovies";
 
-function SimilarMovies({title}: {title: string}) {
+function SimilarMovies({ title }: { title: string }) {
   const { movie_id } = useParams();
 
-    const { movies, isLoading, error } = useFetchMovies(`/movie/${movie_id}/similar`);
+  const { movies, isLoading, error } = useFetchMovies(
+    `/movie/${movie_id}/similar`
+  );
 
   if (isLoading) return <Loading />;
   if (error) return <Error />;

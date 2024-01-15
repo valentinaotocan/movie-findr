@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { fetcher } from "../api/fetcher";
-import { Genre } from "../types";
 import { baseUrl, apiKey } from "../api/config";
+import { Genre } from "../types";
 
 function useFetchGenres() {
   const { data } = useSWR<{ genres: Genre[] }>(

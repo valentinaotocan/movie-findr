@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import useSWR from "swr";
 import { fetcher } from "../api/fetcher";
 import { baseUrl, apiKey } from "../api/config";
+import useSWR from "swr";
 import useMediaQuery from "../hooks/useMediaQuery";
 import Loading from "../components/common/Loading";
 import Error from "../components/common/Error";
@@ -35,7 +35,7 @@ function Details() {
 
   return (
     <section>
-      <BackdropImage backdrop_path={data?.backdrop_path || null} />
+      <BackdropImage backdrop_path={data.backdrop_path} />
       <div className="w-full p-6 pb-11 sm:p-3.5 relative z-0 -mt-[4.688rem] mx-auto max-w-[73.125rem] bg-[--primary-blue] rounded-t-3xl">
         {isSmallerView ? (
           <div className="grid-cols-[minmax(0,1fr)]">
