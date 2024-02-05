@@ -24,7 +24,7 @@ function Filters() {
   });
 
   const { movies, isLoading, error } = useFetchMovies(
-    "/discover/movie/",
+    "/discover/movie",
     queryParams(filters)
   );
 

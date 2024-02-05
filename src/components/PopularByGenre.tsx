@@ -14,7 +14,7 @@ function PopularByGenre() {
 
   const { genres } = useFetchGenres();
 
-  const { movies, isLoading, error } = useFetchMovies("/discover/movie/", {
+  const { movies, isLoading, error } = useFetchMovies("/discover/movie", {
     with_genres: selectedGenre.id,
     sort_by: "popularity.desc",
   });

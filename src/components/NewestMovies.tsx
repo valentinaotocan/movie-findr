@@ -5,7 +5,7 @@ import Cards from "./common/Cards";
 
 function NewestMovies() {
   const today = new Date().toISOString().split("T")[0];
-  const { movies, isLoading, error } = useFetchMovies("/discover/movie/", {
+  const { movies, isLoading, error } = useFetchMovies("/discover/movie", {
     sort_by: "primary_release_date.desc",
     "primary_release_date.lte": today,
     with_original_language: "en",
