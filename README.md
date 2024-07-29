@@ -15,11 +15,23 @@ Built with a passion for cinema and technology, this project offers a sleek, use
 
 
 ### 🌟 Features
-* Movie Search: Quickly find movies based on titles.
-* Favorite: Mark movies as favorites for quick access.
-* Filters: Narrow down searches with various filters.
-* Popular: Check the most popular movies by genre.
-* Movie Details: View comprehensive information about each movie.
+* TMDB (The Movie Database) API Integration
+* Movie Search Functionality:
+  * Search for movies using user input
+  * Display suggestions based on search queries
+  * Icon and functionality for clearing search inputs
+* Detailed Movie Information:
+  * Includes poster, movie name, release year, short summary, cast, director, YouTube trailer, similar movie suggestions, rating, popularity, genre, country, budget, and revenue
+* Latest Movies Display
+* Popular Movies by Genre:
+  * Categorizes and displays popular movies across different genres.
+* Advanced Filtering Options:
+  * Filter movies by year, genres, duration, and rating.
+  * Supports multiple selections and the ability to reset individual or all filters
+  * Sort results by popularity, highest rated, or newest
+* Favorites:
+  * Add or remove movies from favorites
+  * Visual feedback with text changes and icon color updates based on the favorites status
 
 ### 🔗 API
 MovieFindr fetches movie data from the TMDB (The Movie Database) API. The integration enables the application to provide movie search functionality, display detailed movie information, and help users discover new films based on their preferences. The TMDB API is essential for accessing a wide range of movie details, supporting the app's core features.
@@ -35,5 +47,5 @@ MovieFindr fetches movie data from the TMDB (The Movie Database) API. The integr
 or using Docker:  <br />
 &nbsp 1. git clone https://github.com/valentinaotocan/movie-finder <br />
 &nbsp 2. cd movie-finder <br />
-&nbsp 3. docker build -t movie-finder . <br />
+&nbsp 3. docker build -t movie-findr . <br />
 &nbsp 4. docker run -p 3000:3000 movie-finder
